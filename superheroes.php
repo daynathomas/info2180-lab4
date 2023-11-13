@@ -63,10 +63,40 @@ $superheroes = [
   ], 
 ];
 
-?>
+$enteredQuery = $_GET["query"];
 
+$foundByName = array_search($enteredQuery, array_column($superheroes, "name"));
+$foundByAlias = array_search($enteredQuery, array_column($superheroes, "alias"));
+
+if ($enteredQuery != "") {
+    if ($enteredQuery != "" && $foundByName != "") {
+        if (array_key_exists($foundByName, $superheroes)) {
+            foreach ($superheroes as $key => $value) {
+                if ($key == $foundByName) {
+                    foreach ($value as $subKey => $subValue): ?>
+                        <p><?= $subValue ?></p>
+                    <?php endforeach;
+                }
+            }
+        }
+    } else if ($enteredQuery != "" && $foundByAlias != "") {
+        if (array_key_exists($foundByAlias, $superheroes)) {
+            foreach ($superheroes as $key => $value) {
+                if ($key == $foundByAlias) { ?>
+                    <?php foreach ($value as $subKey => $subValue): ?>
+                        <p><?= $subValue ?></p>
+                    <?php endforeach;
+                }
+            }
+        }
+    }
+} else if ($enteredQuery == "") {
+    // Additional logic if needed when the query is empty
+}
+?>
 <ul>
 <?php foreach ($superheroes as $superhero): ?>
   <li><?= $superhero['alias']; ?></li>
 <?php endforeach; ?>
-</ul>
+</ul> 
+<?php
